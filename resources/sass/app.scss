@@ -1,0 +1,15 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+// filepath: resources/sass/app.scss
+h1 {
+  color: #3490dc;
+  text-align: center;
+  font-size: 2.5rem;
+}
