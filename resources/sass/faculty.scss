@@ -1,0 +1,27 @@
+.faculty-page {
+  padding: 20px;
+  background-color: #f0f7ff; // light bluish background
+
+  .page-title {
+    color: #1e3a8a; // dark blue heading
+    margin-bottom: 20px;
+  }
+
+  .table {
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+    .table-header {
+      background-color: #3b82f6; // soft blue
+      color: #fff;
+      font-weight: bold;
+    }
+
+    tbody tr:hover {
+      background-color: #e0f2ff; // hover effect
+    }
+  }
+}

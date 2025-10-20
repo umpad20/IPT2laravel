@@ -2,23 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
-// web.php
-Route::get('/home', function () {
-    return view('home', ['name' => 'Your Name']); // Pass data to the home view
-});
-
-Route::get('/{any?}', function () {
-    return view('welcome');
-})->where('any', '^(?!api).*');
-
+// This will serve the React app for all routes except API
+Route::get('/{any}', function () {
+    return view('app'); // This should be a Blade file with @vite('resources/js/app.js')
+})->where('any', '.*');

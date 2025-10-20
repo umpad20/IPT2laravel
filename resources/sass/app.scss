@@ -1,15 +1,119 @@
-// Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+/* resources/css/app.scss */
 
-// Variables
-@import 'variables';
+/* Import Tailwind Directives *
 
-// Bootstrap
-@import '~bootstrap/scss/bootstrap';
+/* your existing SCSS below */
 
-// filepath: resources/sass/app.scss
-h1 {
-  color: #3490dc;
-  text-align: center;
-  font-size: 2.5rem;
+/* your existing SCSS below */
+
+/* resources/sass/app.scss */
+
+
+/* Your custom Sass can go here */
+
+/* Define Sass Variables for Bluish Theme */
+$primary-blue: #1E40AF;    /* Deep Blue */
+$secondary-blue: #3B82F6;  /* Bright Blue */
+$light-blue: #60A5FA;      /* Light Blue */
+$ultra-light-blue: #93C5FD; /* Very Light Blue */
+$background-gray: #F1F5F9; /* Light Gray-Blue */
+$text-gray: #4B5563;       /* Neutral Gray for Text */
+
+/* Base Layer */
+@layer base {
+  html {
+    font-family: 'Arial', sans-serif;
+    color: $text-gray;
+  }
+
+  body {
+    background-color: $background-gray;
+    margin: 0;
+    padding: 0;
+  }
+
+  h1 {
+    font-size: 1.875rem; /* 30px */
+    font-weight: 700;
+    margin-bottom: 1.5rem; /* 24px */
+    color: $text-gray;
+  }
+
+  h5 {
+    font-size: 0.875rem; /* 14px */
+    font-weight: 600;
+    color: $text-gray;
+  }
 }
+
+/* Components Layer */
+@layer components {
+  .card {
+    background-color: white;
+    padding: 1rem; /* 16px */
+    border-radius: 0.5rem; /* 8px */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+
+    &:hover {
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+  }
+
+  .bg-gradient-blue {
+    background: linear-gradient(135deg, $primary-blue, $secondary-blue);
+  }
+}
+
+/* Utilities Layer */
+@layer utilities {
+  .text-shadow {
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+  }
+}
+
+/* Specific Dashboard Styles */
+.dashboard-page {
+  min-height: 100vh;
+}
+
+.card-metric {
+  color: white;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+
+  &.blue-900-to-600 {
+    background: linear-gradient(135deg, $primary-blue, #2563EB);
+  }
+
+  &.blue-700-to-500 {
+    background: linear-gradient(135deg, #1D4ED8, $secondary-blue);
+  }
+
+  &.blue-500-to-300 {
+    background: linear-gradient(135deg, $secondary-blue, $light-blue);
+  }
+
+  &.blue-300-to-100 {
+    background: linear-gradient(135deg, $light-blue, $ultra-light-blue);
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  h2 {
+    font-size: 1.5rem; /* 24px */
+    font-weight: 700;
+    margin: 0;
+  }
+}
+
+.chart-container {
+  min-height: 300px;
+  margin-top: 1rem;
+}
+
+
