@@ -28,7 +28,7 @@ function DashboardPage() {
   });
 
   useEffect(() => {
-    // Mock data
+    // Replace with real API call if needed
     setData({
       totalStudents: 50,
       totalFaculty: 10,
@@ -136,7 +136,9 @@ function DashboardPage() {
           <ul className="list-group">
             {data.alerts.map((a, i) => (
               <li key={i} className="list-group-item">
-                <div className={a.priority === "high" ? "text-danger" : "text-warning"}>{a.message}</div>
+                <div className={a.priority === "high" ? "text-danger" : "text-warning"}>
+                  {a.message}
+                </div>
                 <div className="text-muted small">Due: {new Date(a.dueDate).toLocaleDateString()}</div>
               </li>
             ))}

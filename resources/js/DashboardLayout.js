@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import { Outlet, NavLink } from "react-router-dom";
+import { Outlet, NavLink, useNavigate } from "react-router-dom";
+import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../sass/dashboard.scss";
 
 function DashboardLayout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const navigate = useNavigate();
 
   const navLinks = [
     { path: "/home", label: "Home" },
@@ -17,23 +19,43 @@ function DashboardLayout() {
     { path: "/profile", label: "Profile" },
   ];
 
+  // Logout handler
+  const handleLogout = async () => {
+    try {
+      await axios.post("/api/logout");
+      localStorage.removeItem("user");
+      navigate("/login");
+    } catch (error) {
+      console.error("Logout failed:", error);
+      alert("Logout failed, please try again.");
+    }
+  };
+
   return (
     <div className="dashboard-container d-flex">
       {/* Sidebar */}
       <aside
         className={`sidebar bg-light ${isSidebarOpen ? "open" : "collapsed"}`}
       >
-        <div className="sidebar-header p-3">
+        <div className="sidebar-header p-3 d-flex justify-content-between align-items-center">
           {isSidebarOpen && <h4>Jaypee Uni</h4>}
-          <button
-            className="btn btn-outline-primary btn-sm"
-            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-          >
-            {isSidebarOpen ? "<<" : ">>"}
-          </button>
+          <div>
+            <button
+              className="btn btn-outline-primary btn-sm me-2"
+              onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+            >
+              {isSidebarOpen ? "<<" : ">>"}
+            </button>
+            <button
+              className="btn btn-outline-danger btn-sm"
+              onClick={handleLogout}
+            >
+              Logout
+            </button>
+          </div>
         </div>
 
-        <nav className="nav flex-column">
+        <nav className="nav flex-column mt-3">
           {navLinks.map((link) => (
             <NavLink
               key={link.path}

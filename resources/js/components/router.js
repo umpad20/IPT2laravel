@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 
-// Layout (go up one folder to reach js/)
+// Layout
 import DashboardLayout from "../DashboardLayout";
 
-// Pages (also up one folder)
+// Pages
 import HomePage from "../HomePage";
 import DashboardPage from "../DashboardPage";
 import FacultyPage from "../FacultyPage";
@@ -14,12 +14,31 @@ import DepartmentsPage from "../DepartmentsPage";
 import ReportPage from "../ReportPage";
 import ProfilePage from "../ProfilePage";
 
+// Auth
+import LoginPage from "../LoginPage";
+import RegisterPage from "../RegisterPage";
+
 function Router() {
+  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("user"));
+
   return (
     <Routes>
-      <Route path="/" element={<DashboardLayout />}>
-        <Route index element={<Navigate to="/home" />} />
+      {/* Public routes */}
+      <Route
+        path="/login"
+        element={<LoginPage onLogin={() => setIsLoggedIn(true)} />}
+      />
+      <Route
+        path="/register"
+        element={<RegisterPage onRegister={() => setIsLoggedIn(true)} />}
+      />
 
+      {/* Private routes */}
+      <Route
+        path="/"
+        element={isLoggedIn ? <DashboardLayout /> : <Navigate to="/login" />}
+      >
+        <Route index element={<Navigate to="/home" />} />
         <Route path="home" element={<HomePage />} />
         <Route path="dashboard" element={<DashboardPage />} />
         <Route path="faculty" element={<FacultyPage />} />
@@ -29,6 +48,12 @@ function Router() {
         <Route path="report" element={<ReportPage />} />
         <Route path="profile" element={<ProfilePage />} />
       </Route>
+
+      {/* Fallback */}
+      <Route
+        path="*"
+        element={<Navigate to={isLoggedIn ? "/home" : "/login"} />}
+      />
     </Routes>
   );
 }

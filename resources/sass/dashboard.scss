@@ -80,6 +80,20 @@
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   }
 
+  .logout-btn {
+  padding: 8px 12px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #b52a37;
+  }
+  
+}
+
   .activities-alerts {
     margin-top: 2rem;
     h6 {

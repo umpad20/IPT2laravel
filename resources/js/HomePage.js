@@ -1,6 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function HomePage() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Check if user is logged in
+    if (!localStorage.getItem("user")) {
+      navigate("/login"); // redirect to login if not
+    }
+  }, [navigate]);
+
   return (
     <div>
       <h1>Welcome to Jaypee University Dashboard</h1>
