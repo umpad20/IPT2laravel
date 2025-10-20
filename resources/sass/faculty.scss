@@ -1,27 +1,102 @@
 .faculty-page {
-  padding: 20px;
-  background-color: #f0f7ff; // light bluish background
-
-  .page-title {
-    color: #1e3a8a; // dark blue heading
-    margin-bottom: 20px;
+  h2 {
+    color: #1e3a8a;
+    margin-bottom: 1rem;
   }
 
-  .table {
-    width: 100%;
-    border-radius: 8px;
-    overflow: hidden;
-    background-color: #ffffff;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  .faculty-form {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
 
-    .table-header {
-      background-color: #3b82f6; // soft blue
-      color: #fff;
-      font-weight: bold;
+    form {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+
+      input,
+      select {
+        padding: 0.5rem;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+      }
+
+      button {
+        padding: 0.5rem 1rem;
+        border: none;
+        background-color: #3b82f6;
+        color: white;
+        border-radius: 4px;
+        cursor: pointer;
+
+        &:hover {
+          background-color: #2563eb;
+        }
+      }
     }
+  }
 
-    tbody tr:hover {
-      background-color: #e0f2ff; // hover effect
+  .faculty-search {
+    margin-bottom: 1rem;
+
+    input {
+      width: 100%;
+      max-width: 300px;
+      padding: 0.5rem;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+  }
+
+  .faculty-table-wrapper {
+    overflow-x: auto;
+
+    .faculty-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+
+      th,
+      td {
+        padding: 0.75rem 0.5rem;
+        border-bottom: 1px solid #e2e8f0;
+      }
+
+      th {
+        background-color: #f3f4f6;
+        color: #1e3a8a;
+      }
+
+      tr:nth-child(even) {
+        background-color: #f9fafb;
+      }
+
+      .edit-btn {
+        background-color: #10b981;
+        color: white;
+        padding: 0.25rem 0.5rem;
+        border-radius: 3px;
+        border: none;
+        margin-right: 0.3rem;
+        cursor: pointer;
+
+        &:hover {
+          background-color: #059669;
+        }
+      }
+
+      .delete-btn {
+        background-color: #ef4444;
+        color: white;
+        padding: 0.25rem 0.5rem;
+        border-radius: 3px;
+        border: none;
+        cursor: pointer;
+
+        &:hover {
+          background-color: #b91c1c;
+        }
+      }
     }
   }
 }

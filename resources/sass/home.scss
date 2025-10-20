@@ -1,0 +1,140 @@
+.homepage {
+  font-family: "Arial", sans-serif;
+  color: #1e3a8a;
+  padding: 0 2rem;
+
+  .hero-banner {
+    background: linear-gradient(135deg, #3b82f6, #60a5fa);
+    color: #fff;
+    text-align: center;
+    padding: 4rem 2rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+    p {
+      font-size: 1.2rem;
+    }
+  }
+
+  .section-stats {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+
+    .stat-card {
+      flex: 1;
+      background-color: #f0f7ff;
+      padding: 1.5rem;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+      h2 {
+        font-size: 2rem;
+        color: #2563eb;
+        margin-bottom: 0.5rem;
+      }
+
+      p {
+        font-size: 1rem;
+      }
+    }
+  }
+
+  section {
+    margin-bottom: 2rem;
+    background-color: #f0f7ff;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+    h3 {
+      color: #2563eb;
+      margin-bottom: 1rem;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+
+      li {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.6rem 1rem;
+        margin-bottom: 0.5rem;
+        border-radius: 8px;
+        background-color: #fff;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+
+        strong {
+          color: #1e3a8a;
+        }
+
+        span {
+          color: #64748b;
+          font-size: 0.9rem;
+        }
+      }
+    }
+  }
+
+  .section-quick-links {
+    .links-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 0.5rem;
+
+      button {
+        background-color: #3b82f6;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        padding: 0.5rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: 0.3s;
+        &:hover {
+          background-color: #2563eb;
+        }
+      }
+    }
+  }
+
+  .section-testimonials {
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+
+      .testimonial-card {
+        background-color: #fff;
+        border-radius: 12px;
+        padding: 1rem;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        text-align: center;
+
+        p {
+          font-style: italic;
+          margin-bottom: 0.5rem;
+        }
+
+        span {
+          font-weight: 600;
+          color: #2563eb;
+        }
+      }
+    }
+  }
+
+  .homepage-footer {
+    text-align: center;
+    color: #64748b;
+    padding: 1rem 0;
+    border-top: 1px solid #c3dafe;
+    font-size: 0.9rem;
+  }
+}

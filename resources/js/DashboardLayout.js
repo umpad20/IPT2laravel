@@ -19,7 +19,6 @@ function DashboardLayout() {
     { path: "/profile", label: "Profile" },
   ];
 
-  // Logout handler
   const handleLogout = async () => {
     try {
       await axios.post("/api/logout");
@@ -34,25 +33,15 @@ function DashboardLayout() {
   return (
     <div className="dashboard-container d-flex">
       {/* Sidebar */}
-      <aside
-        className={`sidebar bg-light ${isSidebarOpen ? "open" : "collapsed"}`}
-      >
-        <div className="sidebar-header p-3 d-flex justify-content-between align-items-center">
+      <aside className={`sidebar bg-light ${isSidebarOpen ? "open" : "collapsed"}`}>
+        <div className="sidebar-header d-flex justify-content-between align-items-center p-3">
           {isSidebarOpen && <h4>Jaypee Uni</h4>}
-          <div>
-            <button
-              className="btn btn-outline-primary btn-sm me-2"
-              onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-            >
-              {isSidebarOpen ? "<<" : ">>"}
-            </button>
-            <button
-              className="btn btn-outline-danger btn-sm"
-              onClick={handleLogout}
-            >
-              Logout
-            </button>
-          </div>
+          <button
+            className="btn btn-outline-primary btn-sm"
+            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+          >
+            {isSidebarOpen ? "<<" : ">>"}
+          </button>
         </div>
 
         <nav className="nav flex-column mt-3">
@@ -67,12 +56,22 @@ function DashboardLayout() {
               {isSidebarOpen ? link.label : link.label[0]}
             </NavLink>
           ))}
+
+          {/* Logout button at bottom */}
+          <button
+            className="btn btn-outline-danger mt-2 w-100 logout-btn"
+            onClick={handleLogout}
+          >
+            {isSidebarOpen ? "Logout" : "L"}
+          </button>
         </nav>
       </aside>
 
       {/* Main Content */}
-      <main className="main-content flex-grow-1 p-4">
-        <Outlet />
+      <main className="main-content flex-grow-1">
+        <div className="main-scroll">
+          <Outlet />
+        </div>
       </main>
     </div>
   );

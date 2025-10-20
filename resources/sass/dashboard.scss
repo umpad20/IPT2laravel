@@ -4,15 +4,25 @@
   font-family: Arial, sans-serif;
 
   .sidebar {
+    position: fixed; // fixed, never scroll
+    top: 0;
+    left: 0;
+    height: 100vh;
     width: 220px;
-    background-color: #e0f2ff; // light blue
-    transition: width 0.3s;
+    background-color: #e0f2ff;
     border-right: 1px solid #c3dafe;
+    display: flex;
+    flex-direction: column;
+    transition: width 0.3s;
 
     &.collapsed {
       width: 60px;
 
       .nav-link {
+        text-align: center;
+      }
+
+      .logout-btn {
         text-align: center;
       }
     }
@@ -22,86 +32,63 @@
       justify-content: space-between;
       align-items: center;
       padding: 1rem;
+
       h4 {
         color: #1e3a8a;
         margin: 0;
       }
+
       button {
         font-size: 0.8rem;
       }
     }
 
-    .nav-link {
-      color: #1e3a8a;
-      font-weight: 500;
-      padding: 0.6rem 1rem;
+    .nav.flex-column {
+      flex-grow: 0;
 
-      &.active {
-        background-color: #3b82f6;
-        color: #fff;
+      .nav-link {
+        color: #1e3a8a;
+        font-weight: 500;
+        padding: 0.6rem 1rem;
         border-radius: 4px;
+        margin-bottom: 0.25rem;
+
+        &.active {
+          background-color: #3b82f6;
+          color: #fff;
+        }
+
+        &:hover {
+          background-color: #60a5fa;
+          color: #fff;
+        }
       }
 
-      &:hover {
-        background-color: #60a5fa;
-        color: #fff;
+      .logout-btn {
+        border-radius: 4px;
+        font-weight: 500;
+        padding: 8px 0;
       }
     }
   }
 
   .main-content {
+    margin-left: 220px; // space for sidebar
     flex-grow: 1;
-    padding: 2rem;
-    background-color: #f0f7ff; // light blue background
+    background-color: #f0f7ff;
+    overflow-y: auto; // scroll only here
+    height: 100vh;
+
+    .main-scroll {
+      padding: 2rem;
+    }
+  }
+
+  .sidebar.collapsed + .main-content {
+    margin-left: 60px;
   }
 
   h2, h6 {
     color: #1e3a8a;
-  }
-
-  .metric-card {
-    background-color: #ffffff;
-    border-radius: 8px;
-    padding: 1rem;
-    text-align: center;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-
-    small {
-      display: block;
-      color: #3b82f6;
-      margin-bottom: 0.5rem;
-    }
-  }
-
-  .chart-card {
-    background-color: #ffffff;
-    padding: 1rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  }
-
-  .logout-btn {
-  padding: 8px 12px;
-  background-color: #dc3545;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #b52a37;
-  }
-  
-}
-
-  .activities-alerts {
-    margin-top: 2rem;
-    h6 {
-      margin-bottom: 0.5rem;
-    }
-    .list-group-item {
-      border-radius: 4px;
-      margin-bottom: 0.5rem;
-    }
   }
 }
