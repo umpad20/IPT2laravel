@@ -9,21 +9,20 @@ class Department extends Model
 {
     use HasFactory;
 
-    // One department has many students
-    public function students()
-    {
-        return $this->hasMany(Student::class);
-    }
+    protected $table = 'department'; // no plural
+    protected $fillable = [
+        'code',
+        'name',
+        'description',
+        'head',
+        'dean_email',
+        'dean_contact',
+        'office_location'
+    ];
 
-    // One department has many faculty
-    public function faculty()
-    {
-        return $this->hasMany(Faculty::class);
-    }
-
-    // One department has many courses
+    // Relationship: One department has many courses
     public function courses()
     {
-        return $this->hasMany(Course::class);
+        return $this->hasMany(Course::class, 'department_id');
     }
 }

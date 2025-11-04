@@ -7,7 +7,7 @@ import DashboardLayout from "../DashboardLayout";
 // Pages
 import HomePage from "../HomePage";
 import DashboardPage from "../DashboardPage";
-import FacultyPage from "../FacultyPage";
+import FacultyPage from "../Facultypage";
 import StudentsPage from "../StudentsPage";
 import CoursesPage from "../CoursesPage";
 import DepartmentsPage from "../DepartmentsPage";
