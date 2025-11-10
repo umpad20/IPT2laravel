@@ -16,8 +16,13 @@ Route::get('/user/{id}', [AuthController::class, 'getUser']); // simple protecte
 
 Route::get('/faculty', [FacultyController::class, 'index']);
 Route::post('/faculty', [FacultyController::class, 'store']);
+Route::get('/faculty/{id}', [FacultyController::class, 'show']);
 Route::put('/faculty/{id}', [FacultyController::class, 'update']);
 Route::delete('/faculty/{id}', [FacultyController::class, 'destroy']);
+
+// Dropdown APIs
+Route::get('/department', [FacultyController::class,'departments']);
+Route::get('/course', [FacultyController::class,'courses']);
 
 Route::get('/student', [StudentController::class, 'index']);
 Route::post('/student', [StudentController::class, 'store']);
@@ -35,3 +40,5 @@ Route::post('/courses', [CourseController::class, 'store']);
 Route::get('/courses/{id}', [CourseController::class, 'show']);
 Route::put('/courses/{id}', [CourseController::class, 'update']);
 Route::delete('/courses/{id}', [CourseController::class, 'destroy']);
+
+

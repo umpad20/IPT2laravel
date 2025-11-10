@@ -1,102 +1,133 @@
 .faculty-page {
-  h2 {
-    color: #1e3a8a;
-    margin-bottom: 1rem;
-  }
+  --bg: #f8fafc;
+  --card: #ffffff;
+  --primary: #2563eb;
+  --muted: #6b7280;
+  --accent: #0ea5a4;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  color: #0f172a;
+  padding: 28px;
+  max-width: 1200px;
+  margin: 0 auto;
 
-  .faculty-form {
+  header {
     display: flex;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
 
-    form {
-      display: flex;
-      gap: 0.5rem;
-      flex-wrap: wrap;
+    h1 { font-size: 1.5rem; margin: 0; color: var(--primary); font-weight: 600; }
+    p { margin: 4px 0 0 0; color: var(--muted); font-size: 0.95rem; }
 
-      input,
-      select {
-        padding: 0.5rem;
-        border-radius: 4px;
-        border: 1px solid #ccc;
-      }
-
-      button {
-        padding: 0.5rem 1rem;
-        border: none;
-        background-color: #3b82f6;
-        color: white;
-        border-radius: 4px;
-        cursor: pointer;
-
-        &:hover {
-          background-color: #2563eb;
-        }
-      }
+    input[type="text"] {
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid #e6edf8;
+      min-width: 220px;
+      background: #fff;
     }
   }
 
-  .faculty-search {
-    margin-bottom: 1rem;
+  .faculty-header { display:flex; justify-content:space-between; align-items:center; gap:12px; }
+  .faculty-header .title-wrap { flex:1 }
+  .faculty-header .muted { color:var(--muted); margin:6px 0 0 0 }
+  .faculty-header .controls { display:flex; gap:12px; align-items:center }
+  .faculty-header .search { padding:8px 10px; border-radius:8px; border:1px solid #e6edf8; min-width:220px; box-shadow: 0 2px 8px rgba(10,15,25,0.04); }
 
-    input {
-      width: 100%;
-      max-width: 300px;
-      padding: 0.5rem;
-      border-radius: 4px;
-      border: 1px solid #ccc;
+  .tabs { display:flex; background: transparent; border-radius:10px; overflow:visible }
+  .tab { background: transparent; border: none; padding:8px 14px; border-radius:10px; cursor:pointer; color:var(--muted); transition: all 0.18s ease; font-weight:600 }
+  .tab:hover { transform: translateY(-2px); color:var(--primary) }
+  .tab.active { background: rgba(37,99,235,0.08); color:var(--primary); box-shadow: 0 6px 18px rgba(37,99,235,0.06) }
+
+  /* tab content transitions */
+  .tab-content { opacity:0; max-height:0; transform: translateY(-6px); transition: all 0.32s ease; overflow:hidden }
+  .tab-content.active { opacity:1; max-height:2000px; transform: translateY(0); }
+
+    .faculty-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+    background: var(--card);
+    padding: 16px;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+    align-items: center;
+
+    input, select {
+      padding: 10px 12px;
+      border: 1px solid #e6edf8;
+      border-radius: 8px;
+      background: #fbfdff;
+      font-size: 0.95rem;
+      color: inherit;
+    }
+
+    input, select { box-shadow: 0 6px 24px rgba(16,24,40,0.04); transition: box-shadow 0.18s ease, transform 0.12s ease }
+    input:focus, select:focus { box-shadow: 0 10px 30px rgba(16,24,40,0.06); transform: translateY(-2px); outline: none }
+
+    .primary-btn { background: var(--primary); color:#fff }
+    .secondary-btn { background: transparent; border:1px solid #e6edf8; color:var(--muted) }
+
+    button {
+      padding: 10px 14px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: transform 0.12s ease, box-shadow 0.12s ease;
+
+      &:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(37,99,235,0.12); }
+      &:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
     }
   }
-
-  .faculty-table-wrapper {
-    overflow-x: auto;
 
     .faculty-table {
-      width: 100%;
-      border-collapse: collapse;
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: transparent;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(2,6,23,0.06);
+
+    thead th {
       text-align: left;
-
-      th,
-      td {
-        padding: 0.75rem 0.5rem;
-        border-bottom: 1px solid #e2e8f0;
-      }
-
-      th {
-        background-color: #f3f4f6;
-        color: #1e3a8a;
-      }
-
-      tr:nth-child(even) {
-        background-color: #f9fafb;
-      }
-
-      .edit-btn {
-        background-color: #10b981;
-        color: white;
-        padding: 0.25rem 0.5rem;
-        border-radius: 3px;
-        border: none;
-        margin-right: 0.3rem;
-        cursor: pointer;
-
-        &:hover {
-          background-color: #059669;
-        }
-      }
-
-      .delete-btn {
-        background-color: #ef4444;
-        color: white;
-        padding: 0.25rem 0.5rem;
-        border-radius: 3px;
-        border: none;
-        cursor: pointer;
-
-        &:hover {
-          background-color: #b91c1c;
-        }
-      }
+      padding: 12px 16px;
+      background: linear-gradient(90deg, rgba(37,99,235,0.95), rgba(37,99,235,0.85));
+      color: #fff;
+      font-weight: 600;
+      font-size: 0.95rem;
+      border-bottom: none;
     }
+
+    tbody td {
+      padding: 12px 16px;
+      background: var(--card);
+      border-top: 1px solid #eef2ff;
+      vertical-align: middle;
+      font-size: 0.95rem;
+    }
+
+    tbody tr:hover td { background: #fbfdff; }
+
+    tbody tr { transition: transform 0.18s ease, box-shadow 0.18s ease }
+    tbody tr:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(2,6,23,0.04) }
+
+    .actions button { margin-right: 6px; padding: 6px 10px; border-radius: 8px; border: none; cursor: pointer; font-weight:600; transition: transform 0.14s ease, box-shadow 0.14s ease }
+    .actions .edit { background: #059669; color: #fff }
+    .actions .edit:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(5,150,105,0.14) }
+    .actions .delete { background: #ef4444; color: #fff }
+    .actions .delete:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(239,68,68,0.14) }
+  }
+
+  @media (max-width: 820px) {
+    header { flex-direction: column; align-items: stretch; gap: 8px; }
+    .faculty-form { grid-template-columns: 1fr; }
+    .faculty-table thead { display: none; }
+    .faculty-table tbody td { display: block; width: 100%; }
+    .faculty-table tbody tr { margin-bottom: 12px; display: block; }
   }
 }

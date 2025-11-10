@@ -161,7 +161,7 @@ export default function DepartmentsPage() {
           </div>
           <textarea placeholder="Description" value={newDept.description} onChange={e => setNewDept({ ...newDept, description: e.target.value })} />
           <div className="form-actions">
-            <button type="submit">{loading ? "⏳ Saving..." : newDept.id ? "Update Department" : "Add Department"}</button>
+            <button type="submit" className="primary-btn">{loading ? "⏳ Saving..." : newDept.id ? "Update Department" : "Add Department"}</button>
             {newDept.id && <button type="button" className="btn-secondary" onClick={() => setNewDept({ code: "", name: "", description: "", head: "", dean_email: "", dean_contact: "", office_location: "" })}>Cancel</button>}
           </div>
         </form>
@@ -191,8 +191,8 @@ export default function DepartmentsPage() {
               <td>{d.head || "-"}</td>
               <td>{d.courses?.length || 0}</td>
               <td>
-                <button onClick={e => { e.stopPropagation(); handleEditDepartment(d); }}>✏️</button>
-                <button onClick={e => { e.stopPropagation(); handleDeleteDepartment(d.id); }}>🗑️</button>
+                <button className="edit" onClick={e => { e.stopPropagation(); handleEditDepartment(d); }}>✏️ Edit</button>
+                <button className="delete" onClick={e => { e.stopPropagation(); handleDeleteDepartment(d.id); }}>🗑️ Delete</button>
               </td>
             </tr>
           ))}
@@ -215,8 +215,8 @@ export default function DepartmentsPage() {
                   <td>{c.year_level}</td>
                   <td>{c.description}</td>
                   <td>
-                    <button onClick={() => handleEditCourse(c)}>✏️</button>
-                    <button onClick={() => handleDeleteCourse(c.id)}>🗑️</button>
+                    <button className="edit" onClick={() => handleEditCourse(c)}>✏️ Edit</button>
+                    <button className="delete" onClick={() => handleDeleteCourse(c.id)}>🗑️ Delete</button>
                   </td>
                 </tr>
               )) : <tr><td colSpan="5">No courses found</td></tr>}
@@ -231,7 +231,7 @@ export default function DepartmentsPage() {
             <input placeholder="Year Level" type="number" value={newCourse.year_level} onChange={e => setNewCourse({ ...newCourse, year_level: e.target.value })} />
             <textarea placeholder="Description" value={newCourse.description} onChange={e => setNewCourse({ ...newCourse, description: e.target.value })}></textarea>
             <div className="form-actions">
-              <button type="submit">{loading ? "⏳ Saving..." : editingCourse ? "Update Course" : "Add Course"}</button>
+              <button type="submit" className="primary-btn">{loading ? "⏳ Saving..." : editingCourse ? "Update Course" : "Add Course"}</button>
               {editingCourse && <button type="button" className="btn-secondary" onClick={cancelEditCourse}>Cancel</button>}
             </div>
           </form>
