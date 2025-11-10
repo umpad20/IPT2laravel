@@ -14,21 +14,23 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout']);
 Route::get('/user/{id}', [AuthController::class, 'getUser']); // simple protected route
 
-Route::get('/faculty', [FacultyController::class, 'index']);
-Route::post('/faculty', [FacultyController::class, 'store']);
-Route::get('/faculty/{id}', [FacultyController::class, 'show']);
-Route::put('/faculty/{id}', [FacultyController::class, 'update']);
-Route::delete('/faculty/{id}', [FacultyController::class, 'destroy']);
+Route::get('/faculty', [FacultyController::class,'index']);        // list all
+Route::post('/faculty', [FacultyController::class,'store']);       // create
+Route::get('/faculty/{id}', [FacultyController::class,'show']);    // single
+Route::put('/faculty/{id}', [FacultyController::class,'update']);  // update
+Route::delete('/faculty/{id}', [FacultyController::class,'destroy']); // delete
 
-// Dropdown APIs
-Route::get('/department', [FacultyController::class,'departments']);
-Route::get('/course', [FacultyController::class,'courses']);
+Route::get('/department', [FacultyController::class,'departments']); // dropdown
+Route::get('/course', [FacultyController::class,'courses']);        // dropdown
 
 Route::get('/student', [StudentController::class, 'index']);
 Route::post('/student', [StudentController::class, 'store']);
 Route::get('/student/{id}', [StudentController::class, 'show']);
 Route::put('/student/{id}', [StudentController::class, 'update']);
 Route::delete('/student/{id}', [StudentController::class, 'destroy']);
+
+Route::get('/department', [DepartmentController::class, 'index']);
+Route::get('/course', [CourseController::class, 'index']);
 
 Route::get('/departments', [DepartmentController::class, 'index']);
 Route::post('/departments', [DepartmentController::class, 'store']);
