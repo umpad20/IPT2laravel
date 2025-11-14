@@ -10,12 +10,10 @@ function DashboardLayout() {
 
   // Removed the "Courses" link here
   const navLinks = [
-    { path: "/home", label: "Home" },
     { path: "/dashboard", label: "Dashboard" },
     { path: "/faculty", label: "Faculty" },
     { path: "/students", label: "Students" },
     { path: "/departments", label: "Departments" },
-    { path: "/report", label: "Report" },
     { path: "/profile", label: "Profile" },
   ];
 

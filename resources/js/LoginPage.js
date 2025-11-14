@@ -19,8 +19,8 @@ function LoginPage({ onLogin }) {
     try {
       const res = await axios.post("/api/login", form);
       localStorage.setItem("user", JSON.stringify(res.data.user));
-      onLogin(); // update Router state
-      navigate("/home");
+  onLogin(); // update Router state
+  navigate("/dashboard");
     } catch (err) {
       setError(err.response?.data?.message || "Login failed.");
     }

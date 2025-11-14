@@ -22,9 +22,9 @@ function RegisterPage({ onRegister }) {
 
     try {
       const res = await axios.post("/api/register", form);
-      localStorage.setItem("user", JSON.stringify(res.data.user));
-      onRegister(); // update Router state
-      navigate("/home");
+      // After signup, do NOT auto-login — redirect user to the login page
+      // Backend returns a success message; send user to /login to authenticate
+      navigate("/login");
     } catch (err) {
       // backend validation messages
       const msg =

@@ -5,13 +5,12 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import DashboardLayout from "../DashboardLayout";
 
 // Pages
-import HomePage from "../HomePage";
 import DashboardPage from "../DashboardPage";
 import FacultyPage from "../Facultypage";
 import StudentsPage from "../StudentsPage";
 import CoursesPage from "../CoursesPage";
 import DepartmentsPage from "../DepartmentsPage";
-import ReportPage from "../ReportPage";
+// ReportPage removed
 import ProfilePage from "../ProfilePage";
 
 // Auth
@@ -38,21 +37,20 @@ function Router() {
         path="/"
         element={isLoggedIn ? <DashboardLayout /> : <Navigate to="/login" />}
       >
-        <Route index element={<Navigate to="/home" />} />
-        <Route path="home" element={<HomePage />} />
+  <Route index element={<Navigate to="/dashboard" />} />
         <Route path="dashboard" element={<DashboardPage />} />
         <Route path="faculty" element={<FacultyPage />} />
         <Route path="students" element={<StudentsPage />} />
         <Route path="courses" element={<CoursesPage />} />
         <Route path="departments" element={<DepartmentsPage />} />
-        <Route path="report" element={<ReportPage />} />
+        
         <Route path="profile" element={<ProfilePage />} />
       </Route>
 
       {/* Fallback */}
       <Route
         path="*"
-        element={<Navigate to={isLoggedIn ? "/home" : "/login"} />}
+        element={<Navigate to={isLoggedIn ? "/dashboard" : "/login"} />}
       />
     </Routes>
   );

@@ -7,9 +7,21 @@ use App\Http\Controllers\FacultyController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\ReportController;
 
+Route::get('/student-attendance-summary/{student_id}', [ReportController::class,'studentAttendanceSummary']);
+Route::get('/student-attendance/{student_id}', [ReportController::class,'studentAttendance']);
+Route::get('/faculty-activity-summary/{faculty_id}', [ReportController::class,'facultyActivitySummary']);
+Route::get('/faculty-activities/{faculty_id}', [ReportController::class,'facultyActivities']);
 
+Route::post('/change-password', [AuthController::class, 'changePassword']);
+
+// Authentication
+Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
+Route::post('/logout', [AuthController::class, 'logout']);
+// Change password (API)
+Route::post('/change-password', [AuthController::class, 'changePassword']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout']);
 Route::get('/user/{id}', [AuthController::class, 'getUser']); // simple protected route

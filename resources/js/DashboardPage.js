@@ -11,6 +11,7 @@ import {
   Legend,
 } from "chart.js";
 import "../sass/dashboard.scss";
+import axios from "./axios";
 
 // Register Chart.js components
 ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, Title, Tooltip, Legend);
@@ -26,33 +27,90 @@ function DashboardPage() {
     recentActivities: [],
     alerts: [],
   });
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Replace with real API call if needed
-    setData({
-      totalStudents: 50,
-      totalFaculty: 10,
-      totalDepartments: 6,
-      totalCourses: 18,
-      studentsPerCourse: { CSP101: 12, CSP102: 8, ETP101: 10, THMP101: 6, ASP101: 14 },
-      facultyPerDepartment: { CSP: 6, ETP: 4, THMP: 3, ASP: 5, NP: 2 },
-      recentActivities: [
-        { description: "New student enrolled", date: "2025-10-13" },
-        { description: "Faculty updated", date: "2025-10-12" },
-      ],
-      alerts: [
-        { message: "Exam schedule released", priority: "high", dueDate: "2025-11-30" },
-      ],
-    });
+    // Fetch live data from API and synthesize dashboard metrics
+    let mounted = true;
+    const load = async () => {
+      try {
+        const [sRes, fRes, dRes, cRes] = await Promise.all([
+          axios.get('/api/student').catch(() => ({ data: [] })),
+          axios.get('/api/faculty').catch(() => ({ data: [] })),
+          axios.get('/api/departments').catch(() => ({ data: [] })),
+          axios.get('/api/course').catch(() => ({ data: [] })),
+        ]);
+
+        const students = sRes.data?.data || sRes.data || [];
+        const faculties = fRes.data?.data || fRes.data || [];
+        const departments = dRes.data?.data || dRes.data || [];
+        const courses = cRes.data?.data || cRes.data || [];
+
+        if (!mounted) return;
+
+        const totalStudents = Array.isArray(students) ? students.length : 0;
+        const totalFaculty = Array.isArray(faculties) ? faculties.length : 0;
+        const totalDepartments = Array.isArray(departments) ? departments.length : 0;
+        const totalCourses = Array.isArray(courses) ? courses.length : 0;
+
+        // students per course (group by course name)
+        const studentsPerCourse = {};
+        (students || []).forEach((st) => {
+          const name = st.course?.name || st.course_name || `Course ${st.course_id || 'N/A'}`;
+          studentsPerCourse[name] = (studentsPerCourse[name] || 0) + 1;
+        });
+
+        // faculty per department
+        const facultyPerDepartment = {};
+        (faculties || []).forEach((f) => {
+          const name = f.department?.name || f.department_name || `Dept ${f.department_id || 'N/A'}`;
+          facultyPerDepartment[name] = (facultyPerDepartment[name] || 0) + 1;
+        });
+
+        // recent activities: synthesize from newest students and faculty records
+        const recentActivities = [];
+        if (Array.isArray(students)) {
+          students.slice(-5).reverse().forEach((st) => {
+            recentActivities.push({ description: `Student enrolled: ${st.first_name} ${st.last_name}`, date: st.created_at || st.createdAt || st.registered_at || null });
+          });
+        }
+        if (Array.isArray(faculties)) {
+          faculties.slice(-3).reverse().forEach((f) => {
+            recentActivities.push({ description: `Faculty added: ${f.name}`, date: f.created_at || f.createdAt || null });
+          });
+        }
+
+        // alerts: low-enrollment courses
+        const alerts = [];
+        Object.entries(studentsPerCourse).forEach(([course, count]) => {
+          if (count <= 5) alerts.push({ message: `Low enrollment: ${course} (${count})`, priority: 'medium', dueDate: null });
+        });
+
+        setData({ totalStudents, totalFaculty, totalDepartments, totalCourses, studentsPerCourse, facultyPerDepartment, recentActivities, alerts });
+        setLoading(false);
+      } catch (err) {
+        console.error('Failed to load dashboard data', err);
+        setLoading(false);
+      }
+    };
+    load();
+    return () => { mounted = false; };
   }, []);
 
   const studentsPerCourseData = {
-    labels: Object.keys(data.studentsPerCourse),
+    // show top 6 courses by enrollment
+    labels: Object.entries(data.studentsPerCourse || {})
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 6)
+      .map((r) => r[0]),
     datasets: [
       {
         label: "Students",
-        data: Object.values(data.studentsPerCourse),
-        backgroundColor: "rgba(59, 130, 246, 0.85)",
+        data: Object.entries(data.studentsPerCourse || {})
+          .sort((a, b) => b[1] - a[1])
+          .slice(0, 6)
+          .map((r) => r[1]),
+        backgroundColor: "rgba(59, 130, 246, 0.9)",
         borderColor: "#2563eb",
         borderWidth: 1,
         borderRadius: 6,
@@ -61,12 +119,18 @@ function DashboardPage() {
   };
 
   const facultyPerDepartmentData = {
-    labels: Object.keys(data.facultyPerDepartment),
+    labels: Object.entries(data.facultyPerDepartment || {})
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 6)
+      .map((r) => r[0]),
     datasets: [
       {
         label: "Faculty",
-        data: Object.values(data.facultyPerDepartment),
-        backgroundColor: ["#60a5fa", "#3b82f6", "#2563eb", "#1d4ed8", "#1e40af"],
+        data: Object.entries(data.facultyPerDepartment || {})
+          .sort((a, b) => b[1] - a[1])
+          .slice(0, 6)
+          .map((r) => r[1]),
+        backgroundColor: ["#60a5fa", "#3b82f6", "#2563eb", "#1d4ed8", "#1e40af", "#1e3a8a"],
         borderWidth: 1,
       },
     ],
@@ -82,64 +146,69 @@ function DashboardPage() {
   return (
     <div className="dashboard-page">
       <h2>Dashboard Overview</h2>
+      {loading ? (
+        <div className="dashboard-loading">Loading dashboard…</div>
+      ) : null}
 
-      <div className="row metrics-row mb-4">
-        <div className="col metric-card">
-          <small>Total Students</small>
-          <h4>{data.totalStudents}</h4>
+      <div className="metrics-row">
+        <div className="metric-card">
+          <div className="metric-label">Total Students</div>
+          <div className="metric-value">{data.totalStudents}</div>
+          <div className="metric-note">Across all departments and years</div>
         </div>
-        <div className="col metric-card">
-          <small>Total Faculty</small>
-          <h4>{data.totalFaculty}</h4>
+        <div className="metric-card">
+          <div className="metric-label">Total Faculty</div>
+          <div className="metric-value">{data.totalFaculty}</div>
+          <div className="metric-note">Active teaching staff</div>
         </div>
-        <div className="col metric-card">
-          <small>Departments</small>
-          <h4>{data.totalDepartments}</h4>
+        <div className="metric-card">
+          <div className="metric-label">Departments</div>
+          <div className="metric-value">{data.totalDepartments}</div>
+          <div className="metric-note">Academic units</div>
         </div>
-        <div className="col metric-card">
-          <small>Courses</small>
-          <h4>{data.totalCourses}</h4>
+        <div className="metric-card">
+          <div className="metric-label">Courses</div>
+          <div className="metric-value">{data.totalCourses}</div>
+          <div className="metric-note">Offered this term</div>
         </div>
       </div>
 
-      <div className="row charts-row mb-4">
-        <div className="col-lg-7 chart-card">
+      <div className="charts-row">
+        <div className="chart-card">
           <h6>Students Per Course</h6>
-          <div style={{ height: 260 }}>
+          <div style={{ flex: 1, minHeight: 220 }}>
             <Bar data={studentsPerCourseData} options={chartOptions} />
           </div>
         </div>
 
-        <div className="col-lg-5 chart-card">
+        <div className="chart-card">
           <h6>Faculty Per Department</h6>
-          <div style={{ height: 260 }}>
+          <div style={{ flex: 1, minHeight: 220 }}>
             <Pie data={facultyPerDepartmentData} options={chartOptions} />
           </div>
         </div>
       </div>
 
-      <div className="row activities-alerts">
-        <div className="col-lg-7">
+      <div className="activities-alerts">
+        <div className="activities">
           <h6>Recent Activities</h6>
           <ul className="list-group">
             {data.recentActivities.map((act, idx) => (
               <li key={idx} className="list-group-item">
-                <strong>{act.description}</strong>
-                <div className="text-muted small">{new Date(act.date).toLocaleDateString()}</div>
+                <div className="activity-desc">{act.description}</div>
+                {act.date ? <div className="text-muted small">{new Date(act.date).toLocaleDateString()}</div> : null}
               </li>
             ))}
           </ul>
         </div>
 
-        <div className="col-lg-5">
+        <div className="alerts">
           <h6>Alerts</h6>
-          <ul className="list-group">
+          <ul className="list-group alerts-list">
             {data.alerts.map((a, i) => (
-              <li key={i} className="list-group-item">
-                <div className={a.priority === "high" ? "text-danger" : "text-warning"}>
-                  {a.message}
-                </div>
-                <div className="text-muted small">Due: {new Date(a.dueDate).toLocaleDateString()}</div>
+              <li key={i} className={`list-group-item ${a.priority === 'high' ? 'alert-high' : a.priority === 'medium' ? 'alert-medium' : 'alert-low'}`}>
+                <div className="alert-message">{a.message}</div>
+                {a.dueDate ? <div className="text-muted small">Due: {new Date(a.dueDate).toLocaleDateString()}</div> : null}
               </li>
             ))}
           </ul>
